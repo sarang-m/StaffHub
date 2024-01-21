@@ -32,5 +32,27 @@ namespace StaffHub.Services
 
             return department.ToDepartmentResponse();
         }
+
+        public List<DepartmentResponse> GetAllDepartment()
+        {
+            List<DepartmentResponse> depdepartmentResponse = _department.Select(
+                (department) => department.ToDepartmentResponse()).ToList();
+            return depdepartmentResponse;
+        }
+
+        public DepartmentResponse GetDepartmentByID(Guid? departmentId)
+        {
+            if (departmentId == null)
+            {
+                return null;
+            }
+            Department? department =  _department.FirstOrDefault(
+                department => department.DepartmentId == departmentId);
+            if (department == null)
+            {
+                return null;
+            }
+            return department.ToDepartmentResponse(); 
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace StaffHub.Tests
             _departmentService = new DepartmentService();
 
         }
-
+        #region AddDepartment
         //When the Department request is null -> Throw ArgumentNullException
         [Fact]
         public void AddDepartment_NullDepartment()
@@ -78,5 +78,69 @@ namespace StaffHub.Tests
             //Assert
             Assert.True(response.DeparmentId != Guid.Empty);
         }
+        #endregion
+
+        #region GetAllDepartment
+        //
+
+        [Fact]
+        public void GetAllDepartment_Test()
+        {
+            //Arrange
+            List<DepartmentAddRequest> departmentRequestList = new List<DepartmentAddRequest> { 
+                new DepartmentAddRequest() {DepartmentName = "IT" },
+                new DepartmentAddRequest() {DepartmentName = "Sales"} 
+            };
+            List<DepartmentResponse> departmentResponseList = new List<DepartmentResponse>();
+
+            //Act
+            foreach (DepartmentAddRequest department in departmentRequestList)
+            {
+                DepartmentResponse response = _departmentService.AddDepartment(department);
+                departmentResponseList.Add(response);
+
+            }
+            List<DepartmentResponse> actualResponseList = _departmentService.GetAllDepartment();
+
+            foreach (DepartmentResponse expected in departmentResponseList)
+            {
+                //Assert.Contains(expected, actualResponseList);
+                Assert.Contains(actualResponseList, item => item.DeparmentId == expected.DeparmentId);
+            }
+        }
+        #endregion
+        #region GetCountryByCountryID
+
+        [Fact]
+        //If we supply null as CountryID, it should return null as CountryResponse
+        public void GetCountryByCountryID_NullCountryID()
+        {
+            //Arrange
+            Guid? departmentID = null;
+
+            //Act
+            DepartmentResponse? department_response_from_get_method = _departmentService.GetDepartmentByID(departmentID);
+
+
+            //Assert
+            Assert.Null(department_response_from_get_method);
+        }
+
+
+        [Fact]
+        //If we supply a valid country id, it should return the matching country details as CountryResponse object
+        public void GetDepartmentByID_ValidDepartmenID()
+        {
+            //Arrange
+            DepartmentAddRequest? department_add_request = new DepartmentAddRequest() { DepartmentName = "Sales" };
+            DepartmentResponse department_response_from_add = _departmentService.AddDepartment(department_add_request);
+
+            //Act
+            DepartmentResponse? department_response_from_get = _departmentService.GetDepartmentByID(department_response_from_add.DeparmentId);
+
+            //Assert
+            Assert.Equal(department_response_from_add.DeparmentId, department_response_from_get.DeparmentId);
+        }
+        #endregion
     }
 }

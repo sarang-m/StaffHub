@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace StaffHub.ServiceContracts.DTO
 {
-    public class PersonAddRequest
+    public class EmployeeAddRequest
     {
-        [Required(ErrorMessage = "Person name can't be empty")]
-        public string? PersonName { get; set; }
+        [Required(ErrorMessage = "Employee name can't be empty")]
+        public string? EmployeeName { get; set; }
         [Required(ErrorMessage = "Email can't be empty")]
         [EmailAddress(ErrorMessage = "Invalid email address")]
         public string? Email { get; set; }
@@ -22,10 +22,10 @@ namespace StaffHub.ServiceContracts.DTO
         public string? Role { get; set; }
         public bool IsActive { get; set; } = true;
 
-        public Person ToPerson()
+        public Employee ToEmployee()
         {
-            return new Person() { 
-                PersonName = this.PersonName, 
+            return new Employee() { 
+                EmployeeName = this.EmployeeName, 
                 Email = this.Email, 
                 DateOfBirth = this.DateOfBirth, 
                 Gender = this.Gender.ToString(), 

@@ -3,12 +3,12 @@ using StaffHub.ServiceContracts.Enums;
 using System.ComponentModel.DataAnnotations;
 namespace StaffHub.ServiceContracts.DTO
 {
-    public class PersonUpdateRequest
+    public class EmployeeUpdateRequest
     {
-        [Required(ErrorMessage ="Person ID can't be empty")]
-        public Guid PersonId { get; set; }
-        [Required(ErrorMessage = "Person name can't be empty")]
-        public string? PersonName { get; set; }
+        [Required(ErrorMessage = "Employee ID can't be empty")]
+        public Guid EmployeeID { get; set; }
+        [Required(ErrorMessage = "Employee name can't be empty")]
+        public string? EmployeeName { get; set; }
         [Required(ErrorMessage = "Email can't be empty")]
         [EmailAddress(ErrorMessage = "Invalid email address")]
         public string? Email { get; set; }
@@ -18,12 +18,12 @@ namespace StaffHub.ServiceContracts.DTO
         public string? Role { get; set; }
         public bool IsActive { get; set; } = true;
 
-        public Person ToPerson()
+        public Employee ToEmployee()
         {
-            return new Person()
+            return new Employee()
             {
-                PersonID = this.PersonId,
-                PersonName = this.PersonName,
+                EmployeeID = this.EmployeeID,
+                EmployeeName = this.EmployeeName,
                 Email = this.Email,
                 DateOfBirth = this.DateOfBirth,
                 Gender = this.Gender.ToString(),

@@ -131,7 +131,7 @@ namespace StaffHub.Services
         public List<EmployeeResponse> GetFilteredEmployees(string searchBy, string? searchString)
         {
             List<EmployeeResponse> allEmployees= GetAllEmployees();
-            List<EmployeeResponse> matchingEmployees = new List<EmployeeResponse>();
+            List<EmployeeResponse> matchingEmployees = allEmployees;
 
             if (string.IsNullOrEmpty(searchBy) || string.IsNullOrEmpty(searchString))
             {
@@ -141,37 +141,42 @@ namespace StaffHub.Services
 
             switch (searchBy)
             {
-                case nameof(Employee.EmployeeName):
+                case nameof(EmployeeResponse.EmployeeName):
                     matchingEmployees = allEmployees.Where(
                         (temp) => (!string.IsNullOrEmpty(temp.EmployeeName)) ? temp.EmployeeName.Contains(
                             searchString, StringComparison.OrdinalIgnoreCase) : true).ToList();
                     break;
 
-                case nameof(Employee.Email):
+                case nameof(EmployeeResponse.Email):
                     matchingEmployees = allEmployees.Where(
-                        (temp) => (!string.IsNullOrEmpty(temp.Email))?temp.Email.Contains(
-                            searchString, StringComparison.OrdinalIgnoreCase): true).ToList();
+                        (temp) => (!string.IsNullOrEmpty(temp.Email)?temp.Email.Contains(
+                            searchString, StringComparison.OrdinalIgnoreCase): true)).ToList();
                     break;
 
-                case nameof(Employee.DateOfBirth):
+                case nameof(EmployeeResponse.DateOfBirth):
                     matchingEmployees = allEmployees.Where(
                         (temp) => (temp.DateOfBirth != null) ? temp.DateOfBirth.Value.ToString("dd MM yyyy").Contains(
                             searchString, StringComparison.OrdinalIgnoreCase) : true).ToList();
                     break;
-                case nameof(Employee.Gender):
+                case nameof(EmployeeResponse.Gender):
                     matchingEmployees = allEmployees.Where(
-                        (temp) => (!string.IsNullOrEmpty(temp.Gender)) ? temp.Gender.Contains(
-                            searchString, StringComparison.OrdinalIgnoreCase) : true).ToList();
+                        (temp) => (!string.IsNullOrEmpty(temp.Gender) ? temp.Gender.StartsWith(
+                            searchString, StringComparison.OrdinalIgnoreCase) : true)).ToList();
                     break;
-                case nameof(Employee.DepartmentID):
+                case nameof(EmployeeResponse.DepartmentID):
                     matchingEmployees = allEmployees.Where(
-                        (temp) => (!string.IsNullOrEmpty(temp.DepartmentName)) ? temp.DepartmentName.Contains(
-                            searchString, StringComparison.OrdinalIgnoreCase) : true).ToList();
+                        (temp) => (!string.IsNullOrEmpty(temp.DepartmentName) ? temp.DepartmentName.Contains(
+                            searchString, StringComparison.OrdinalIgnoreCase) : true)).ToList();
                     break;
-                case nameof(Employee.Role):
+                case nameof(EmployeeResponse.Role):
                     matchingEmployees = allEmployees.Where(
-                        (temp) => (!string.IsNullOrEmpty(temp.Role)) ? temp.Role.Contains(
-                            searchString, StringComparison.OrdinalIgnoreCase) : true).ToList();
+                        (temp) => (!string.IsNullOrEmpty(temp.Role) ? temp.Role.Contains(
+                            searchString, StringComparison.OrdinalIgnoreCase) : true)).ToList();
+                    break;
+                case nameof(EmployeeResponse.IsActive):
+                    matchingEmployees = allEmployees.Where(
+                        (temp) => (!string.IsNullOrEmpty(temp.IsActive.ToString()) ? temp.IsActive.ToString().Contains(
+                            searchString, StringComparison.OrdinalIgnoreCase) : true)).ToList();
                     break;
                 default:
                     matchingEmployees = allEmployees; break;

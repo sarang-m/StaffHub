@@ -3,50 +3,59 @@
     ViewBag.Titile = "Employees";
 }
 
-<h1>Employees </h1>
-<div class="box flex">
-    <div class="flex-1">
-        <select class="form-input">
-            @foreach (var field in ViewBag.SearchFields)
-            {
-                <option value="@field.Key">@field.Value</option>
-            }
-        </select>
-    </div>
-    <div class="flex-1">
-        <input type="search" id="Search" class="form-input" placeholder="Search"/>
-    </div>
-    <div class="flex-1">
-        <button class="button blue-back"> Search</button>
-        <a href="~/employee/index"> Clear All </a>
-    </div>
+<form action="~/employee/index" method="get">
+    <h1>Employees </h1>
+    <div class="box flex">
+        <div class="flex-1">
+            <select class="form-input" name="searchBy" >
+                @foreach (var field in ViewBag.SearchFields)
+                {
+                    if (field.Key == @ViewBag.currentSearchBy)
+                    {
+                        <option value="@field.Key" selected="selected">@field.Value</option>
+                    }
+                    else
+                    {
+                        <option value="@field.Key">@field.Value</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="flex-1">
+            <input type="search" id="Search" class="form-input" placeholder="Search" name="searchString" value="@ViewBag.currentSearchString" />
+        </div>
+        <div class="flex-1">
+            <button class="button blue-back"> Search</button>
+            <a href="~/employee/index"> Clear All </a>
+        </div>
 
-</div>
-<table class="table w-100 mt">
-    <thead>
-        <tr>
-            <th>Employee Name</th>
-            <th>Email</th>
-            <th>Date of Birth</th>
-            <th>Age</th>
-            <th>Gender</th>
-            <th>Role</th>
-            <th>IsActive</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (EmployeeResponse employee in Model)
-        {
+    </div>
+    <table class="table w-100 mt">
+        <thead>
             <tr>
-                <td>@employee.EmployeeName</td>
-                <td>@employee.Email</td>
-                <td>@employee.DateOfBirth?.ToString("dd MMM yyyy")</td>
-                <td>@employee.Age</td>
-                <td>@employee.Gender</td>
-                <td>@employee.Role</td>
-                <td>@employee.IsActive</td>
+                <th>Employee Name</th>
+                <th>Email</th>
+                <th>Date of Birth</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Role</th>
+                <th>IsActive</th>
             </tr>
-        }
-    </tbody>
+        </thead>
+        <tbody>
+            @foreach (EmployeeResponse employee in Model)
+            {
+                <tr>
+                    <td>@employee.EmployeeName</td>
+                    <td>@employee.Email</td>
+                    <td>@employee.DateOfBirth?.ToString("dd MMM yyyy")</td>
+                    <td>@employee.Age</td>
+                    <td>@employee.Gender</td>
+                    <td>@employee.Role</td>
+                    <td>@employee.IsActive</td>
+                </tr>
+            }
+        </tbody>
 
-</table>
+    </table>
+</form>

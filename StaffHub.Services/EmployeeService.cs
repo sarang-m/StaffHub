@@ -114,7 +114,7 @@ namespace StaffHub.Services
             
         public List<EmployeeResponse> GetAllEmployees()
         {
-            List<EmployeeResponse> employeeResponses = _employees.Select((temp) => temp.ToEmployeeResponse()).ToList();
+            List<EmployeeResponse> employeeResponses = _employees.Select((temp) => ConvertEmployeeToEmployeeResponse(temp)).ToList();
             return employeeResponses;
         }
 
@@ -125,7 +125,7 @@ namespace StaffHub.Services
             Employee? employee = _employees.FirstOrDefault((temp) => temp.EmployeeID == employeeID);
             if (employee == null) return null;
 
-            return employee.ToEmployeeResponse();
+            return ConvertEmployeeToEmployeeResponse(employee);
         }
 
         public List<EmployeeResponse> GetFilteredEmployees(string searchBy, string? searchString)
@@ -322,7 +322,7 @@ namespace StaffHub.Services
             matchingEmployee.Role = employeeUpdateRequest.Role;
             matchingEmployee.IsActive = employeeUpdateRequest.IsActive;
 
-            return matchingEmployee.ToEmployeeResponse();
+            return ConvertEmployeeToEmployeeResponse(matchingEmployee);
         }
 
         public bool DeleteEmployee(Guid? employeeID)

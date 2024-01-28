@@ -19,7 +19,7 @@ namespace StaffHub.Controllers
         [Route("/employee/index")]
         [Route("/")] 
         public IActionResult Index(string searchBy, string? searchString, 
-            string stortBy=nameof(EmployeeResponse.EmployeeName), 
+            string sortBy=nameof(EmployeeResponse.EmployeeName), 
             SortOrderOptions sortOrder = SortOrderOptions.ASC)
         {
             //Search functionality
@@ -38,9 +38,14 @@ namespace StaffHub.Controllers
             };
 
             List<EmployeeResponse> employees = _employyeService.GetFilteredEmployees(searchBy, searchString);
+            //Sort functionality
+            ViewBag.currentSortBy = sortBy; 
+            ViewBag.currentSortOrder = sortOrder.ToString();
 
-            
-            return View(employees);
+            List<EmployeeResponse> sortedEmployees = _employyeService.GetSortedEmployees(
+                employees, sortBy, sortOrder);
+
+            return View(sortedEmployees);
         }
 
     }

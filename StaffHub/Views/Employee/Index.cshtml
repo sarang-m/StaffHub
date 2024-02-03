@@ -3,8 +3,9 @@
     ViewBag.Titile = "Employees";
 }
 
-<form action="~/employee/index" method="get">
+<form asp-controller="Employee" asp-action="Index" method="get">
     <h1>Employees </h1>
+    <a href="~/employee/create" > Add Employee </a>
     <div class="box flex">
         <div class="flex-1">
             <select class="form-input" name="searchBy" >
@@ -26,7 +27,7 @@
         </div>
         <div class="flex-1">
             <button class="button blue-back"> Search</button>
-            <a href="~/employee/index"> Clear All </a>
+            <a asp-controller="Employee" asp-action="Index"> Clear All </a>
         </div>
 
     </div>

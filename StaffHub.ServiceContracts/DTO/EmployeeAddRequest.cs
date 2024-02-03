@@ -11,16 +11,23 @@ namespace StaffHub.ServiceContracts.DTO
 {
     public class EmployeeAddRequest
     {
-        [Required(ErrorMessage = "Employee name can't be empty")]
+        [Required(ErrorMessage = "Please enter the employee name")]
         public string? EmployeeName { get; set; }
-        [Required(ErrorMessage = "Email can't be empty")]
+
+        [Required(ErrorMessage = "Please enter the email address")]
         [EmailAddress(ErrorMessage = "Invalid email address")]
+        [DataType(DataType.EmailAddress)]
         public string? Email { get; set; }
-        public DateTime DateOfBirth { get; set; }
+
+        [Required(ErrorMessage = "Please enter the Date of Birth")]
+        [DataType(dataType:DataType.Date)]
+        public DateTime? DateOfBirth { get; set; }
+
+        [Required(ErrorMessage = "Please Select the Gender")]
         public GenderOptions? Gender { get; set; }
         public Guid? DepartmentID { get; set; }
         public string? Role { get; set; }
-        public bool IsActive { get; set; } = true;
+        public bool IsActive { get; set; } 
 
         public Employee ToEmployee()
         {

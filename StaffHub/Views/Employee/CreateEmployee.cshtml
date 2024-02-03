@@ -1,0 +1,123 @@
+﻿@model EmployeeAddRequest
+@{
+    ViewBag.Title = "Create Employee";
+}
+
+<a href="~/employee/index" class="link-hover"> Back to Employee List</a>
+<h2>Add Employee</h2>
+<div class="w-50">
+    <form action="~/employee/create" method="post">
+        @*Employee name*@
+        <div class="form-field flex">
+            <div class="w-25">
+                <label for="EmployeeName" class="form-label pt"> Empolyee Name </label>
+            </div>
+            <div class="flex-1">
+                <input asp-for="EmployeeName" class="form-input" />
+            </div>
+        </div>
+
+        @*Email*@
+        <div class="form-field flex">
+            <div class="w-25">
+                <label for="Email" class="form-label pt"> Email </label>
+            </div>
+            <div class="flex-1">
+                <input asp-for="Email" class="form-input" />
+            </div>
+        </div>
+
+        @*DateOfBirth*@
+        <div class="form-field flex">
+            <div class="w-25">
+                <label for="DateOfBirth" class="form-label pt"> Date Of Birth </label>
+            </div>
+            <div class="flex-1">
+                <input asp-for="DateOfBirth" class="form-input" />
+            </div>
+        </div>
+
+        @*Gender*@
+        <div class="form-field flex">
+            <div class="w-25">
+                <label class="form-label"> Gender </label>
+            </div>
+            <div class="flex-1">
+                @{
+                    string[] genders = (string[])Enum.GetNames(typeof(GenderOptions));
+                }
+                @foreach(string gender in genders)
+                {
+                    <input asp-for="Gender" type="radio" id="@gender"  value="@gender" />
+                    <label for="@gender"> @gender </label>
+                }
+
+            </div>
+        </div>
+
+        @*Department*@
+        <div class="form-field flex">
+            <div class="w-25">
+                <label for="DepartmentID" class="form-label pt"> Department </label>
+            </div>
+            <div class="flex-1">
+                <select asp-for="DepartmentID" class="form-input">
+                    <option value=""> Please Select</option>
+                    @foreach (DepartmentResponse department in ViewBag.Department)
+                    {
+                        <option value="@department.DeparmentId"> @department.DepartmentName</option>
+                    }
+                </select>
+
+            </div>
+        </div>
+
+        @*Role*@
+        <div class="form-field flex">
+            <div class="w-25">
+                <label for="Role" class="form-label pt"> Role </label>
+            </div>
+            <div class="flex-1">
+                <textarea asp-for="Role" class="form-input"></textarea>
+            </div>
+        </div>
+
+        @*IsActive*@
+        <div class="form-field flex">
+            <div class="w-25">
+            </div>
+            <div class="flex-1">
+                <input asp-for="IsActive" value="true" checked/>
+                <label id="IsActive" class="form-label">Is Active</label>
+            </div>
+        </div>
+
+        @*Submit Button*@
+        <div class="form-field flex">
+            <div class="w-25">
+            </div>
+
+            <div class="flex-1">
+                <button class="button button-green-back"> Add Employee </button>
+                @if(ViewBag.Errors != null)
+                {
+                    <div class="text-red ml">
+                        <ul>
+                            @foreach (string error in ViewBag.Errors)
+                            {
+                                <li class="ml"> @error </li>
+                            }
+                        </ul>
+
+                    </div>
+                }
+            </div>
+                
+            
+        </div>
+            
+
+
+
+    </form>
+</div>

@@ -9,14 +9,17 @@ using System;
 
 namespace StaffHub.Controllers
 {
+    [Route("employee")]
     public class EmployeeController : Controller
     {
         private readonly IEmployeeService _employyeService;
-        public EmployeeController(IEmployeeService employeeService)
+        private readonly IDepartmentService _departmentService;
+        public EmployeeController(IEmployeeService employeeService, IDepartmentService departmentService)
         {
             _employyeService = employeeService;
+            _departmentService = departmentService;
         }
-        [Route("/employee/index")]
+        [Route("index")]
         [Route("/")] 
         public IActionResult Index(string searchBy, string? searchString, 
             string sortBy=nameof(EmployeeResponse.EmployeeName), 
@@ -46,6 +49,30 @@ namespace StaffHub.Controllers
                 employees, sortBy, sortOrder);
 
             return View(sortedEmployees);
+        }
+        [Route("create")]
+        [HttpGet]
+        public IActionResult CreateEmployee()
+        {
+            List<DepartmentResponse> allDepartment =  _departmentService.GetAllDepartment();
+            ViewBag.Department = allDepartment;
+            return View();
+        }
+
+        [Route("create")]
+        [HttpPost]
+        public IActionResult CreateEmployee(EmployeeAddRequest employeeAddRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                List<DepartmentResponse> allDepartment = _departmentService.GetAllDepartment();
+                ViewBag.Department = allDepartment;
+                ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(
+                    e => e.ErrorMessage).ToList();
+                return View();
+            }
+            EmployeeResponse employeeResponse = _employyeService.AddEmployee(employeeAddRequest);
+            return RedirectToAction("index","Employee");
         }
 
     }

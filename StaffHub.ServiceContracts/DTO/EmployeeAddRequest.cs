@@ -1,11 +1,6 @@
 ﻿using StaffHub.Entities;
 using StaffHub.ServiceContracts.Enums;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StaffHub.ServiceContracts.DTO
 {
@@ -25,6 +20,7 @@ namespace StaffHub.ServiceContracts.DTO
 
         [Required(ErrorMessage = "Please Select the Gender")]
         public GenderOptions? Gender { get; set; }
+        [Required(ErrorMessage ="Please select the department")]
         public Guid? DepartmentID { get; set; }
         public string? Role { get; set; }
         public bool IsActive { get; set; } 

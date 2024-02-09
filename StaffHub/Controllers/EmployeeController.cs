@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using StaffHub.Entities;
 using StaffHub.ServiceContracts;
@@ -55,7 +56,11 @@ namespace StaffHub.Controllers
         public IActionResult CreateEmployee()
         {
             List<DepartmentResponse> allDepartment =  _departmentService.GetAllDepartment();
-            ViewBag.Department = allDepartment;
+            ViewBag.Department = allDepartment.Select( 
+                temp => new SelectListItem() { 
+                    Text = temp.DepartmentName, 
+                    Value = temp.DeparmentId.ToString()});
+
             return View();
         }
 
@@ -66,13 +71,81 @@ namespace StaffHub.Controllers
             if (!ModelState.IsValid)
             {
                 List<DepartmentResponse> allDepartment = _departmentService.GetAllDepartment();
-                ViewBag.Department = allDepartment;
+                ViewBag.Department = allDepartment.Select(
+                temp => new SelectListItem()
+                {
+                    Text = temp.DepartmentName,
+                    Value = temp.DeparmentId.ToString()
+                });
                 ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(
                     e => e.ErrorMessage).ToList();
                 return View();
             }
             EmployeeResponse employeeResponse = _employyeService.AddEmployee(employeeAddRequest);
             return RedirectToAction("index","Employee");
+        }
+        [HttpGet]
+        [Route("edit/{employeeID}")]
+        public IActionResult Edit(Guid employeeID)
+        {
+            EmployeeResponse? employeeResponse = _employyeService.GetEmployeeByID(employeeID);
+            if (employeeResponse == null)
+            {
+                return RedirectToAction("index");
+            }
+
+            List<DepartmentResponse> allDepartment = _departmentService.GetAllDepartment();
+            ViewBag.Department = allDepartment.Select(
+                temp => new SelectListItem()
+                {
+                    Text = temp.DepartmentName,
+                    Value = temp.DeparmentId.ToString()
+                });
+
+            EmployeeUpdateRequest employeeUpdaterequest = employeeResponse.ToEmployeeUpdateRequest();
+            return View(employeeUpdaterequest);
+
+        }
+        [HttpPost]
+        [Route("edit/{employeeID}")]
+        public IActionResult Edit(EmployeeUpdateRequest employeeUpdateRequest)
+        {
+            EmployeeResponse employeeResponse =  _employyeService.GetEmployeeByID(employeeUpdateRequest.EmployeeID);
+
+            if (employeeResponse == null)
+            {
+                return RedirectToAction("index");
+            }
+            if (ModelState.IsValid)
+            {
+                EmployeeResponse updatedEmployee =_employyeService.UpdateEmployees(employeeUpdateRequest);
+                return RedirectToAction("index");
+            }
+            else
+            {
+                List<DepartmentResponse> allDepartment = _departmentService.GetAllDepartment();
+                ViewBag.Department = allDepartment.Select(
+                temp => new SelectListItem()
+                {
+                    Text = temp.DepartmentName,
+                    Value = temp.DeparmentId.ToString()
+                });
+                ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(
+                    e => e.ErrorMessage).ToList();
+                return View();
+            }
+            
+        }
+        [HttpGet]
+        [Route("delete/{employeeID}")]
+        public IActionResult Delete(Guid employeeId)
+        {
+            EmployeeResponse employeeResponse = _employyeService.GetEmployeeByID(employeeId);
+            if (employeeResponse != null)
+            {
+                return View(employeeResponse);
+            }
+            return RedirectToAction("index");
         }
 
     }

@@ -132,7 +132,7 @@ namespace StaffHub.Controllers
                 });
                 ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(
                     e => e.ErrorMessage).ToList();
-                return View();
+                return View(employeeResponse.ToEmployeeUpdateRequest());
             }
             
         }
@@ -140,10 +140,22 @@ namespace StaffHub.Controllers
         [Route("delete/{employeeID}")]
         public IActionResult Delete(Guid employeeId)
         {
-            EmployeeResponse employeeResponse = _employyeService.GetEmployeeByID(employeeId);
+            EmployeeResponse? employeeResponse = _employyeService.GetEmployeeByID(employeeId);
             if (employeeResponse != null)
             {
                 return View(employeeResponse);
+            }
+            return RedirectToAction("index");
+        }
+        [HttpPost]
+        [Route("delete/{employeeID}")]
+        public IActionResult Delete(EmployeeResponse employeeResponse)
+        {
+            EmployeeResponse? employee = _employyeService.GetEmployeeByID(employeeResponse.EmployeeID);
+            if (employee != null)
+            {
+                bool isDeleated = _employyeService.DeleteEmployee(employee.EmployeeID);
+                return RedirectToAction("index");
             }
             return RedirectToAction("index");
         }

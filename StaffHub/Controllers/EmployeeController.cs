@@ -41,6 +41,7 @@ namespace StaffHub.Controllers
                 {(nameof(EmployeeResponse.IsActive)),"Is Active"}
             };
 
+
             List<EmployeeResponse> employees = _employyeService.GetFilteredEmployees(searchBy, searchString);
             //Sort functionality
             ViewBag.currentSortBy = sortBy; 

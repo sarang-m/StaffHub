@@ -5,10 +5,10 @@
 
 <form asp-controller="Employee" asp-action="Index" method="get">
     <h1>Employees </h1>
-    <a href="~/employee/create" > Add Employee </a>
+    <a href="~/employee/create"> Add Employee </a>
     <div class="box flex">
         <div class="flex-1">
-            <select class="form-input" name="searchBy" >
+            <select class="form-input" name="searchBy">
                 @foreach (var field in ViewBag.SearchFields)
                 {
                     if (field.Key == @ViewBag.currentSearchBy)
@@ -35,43 +35,43 @@
         <thead>
             <tr>
                 @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData){
-                    { "columnName", nameof(EmployeeResponse.EmployeeName) },
-                    {"displayName", "Employee Name" },
+                { "columnName", nameof(EmployeeResponse.EmployeeName) },
+                {"displayName", "Employee Name" },
 
                 })
                 @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData){
-                    { "columnName", nameof(EmployeeResponse.Email) },
-                    {"displayName", "Email" },
+                { "columnName", nameof(EmployeeResponse.Email) },
+                {"displayName", "Email" },
 
                 })
                 @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData){
-                    { "columnName", nameof(EmployeeResponse.DateOfBirth) },
-                    {"displayName", "Date Of Birth" },
+                { "columnName", nameof(EmployeeResponse.DateOfBirth) },
+                {"displayName", "Date Of Birth" },
 
                 })
                 @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData){
-                    { "columnName", nameof(EmployeeResponse.Age) },
-                    {"displayName", "Age" },
+                { "columnName", nameof(EmployeeResponse.Age) },
+                {"displayName", "Age" },
 
                 })
                 @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData){
-                    { "columnName", nameof(EmployeeResponse.Gender) },
-                    {"displayName", "Gender" },
+                { "columnName", nameof(EmployeeResponse.Gender) },
+                {"displayName", "Gender" },
 
                 })
                 @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData){
-                    { "columnName", nameof(EmployeeResponse.Role) },
-                    {"displayName", "Role" },
+                { "columnName", nameof(EmployeeResponse.Role) },
+                {"displayName", "Role" },
 
                 })
                 @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData){
-                    { "columnName", nameof(EmployeeResponse.DepartmentName) },
-                    {"displayName", "Department" },
+                { "columnName", nameof(EmployeeResponse.DepartmentName) },
+                {"displayName", "Department" },
 
                 })
                 @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData){
-                    { "columnName", nameof(EmployeeResponse.IsActive) },
-                    {"displayName", "Is Active" },
+                { "columnName", nameof(EmployeeResponse.IsActive) },
+                {"displayName", "Is Active" },
 
                 })
                 <th>Options</th>
@@ -89,17 +89,24 @@
                     <td style="width:10%">@employee.Role</td>
                     <td style="width:10%">@employee.DepartmentName</td>
                     <td style="width:8%">@employee.IsActive</td>
-                    <td style="width:8%"> 
-                        <a asp-controller="Employee" asp-action="Edit"
-                           asp-route-employeeID="@employee.EmployeeID"> Edit </a>
-                    </td>
                     <td style="width:8%">
-                        <a asp-controller="Employee" asp-action="Delete"
-                           asp-route-employeeID="@employee.EmployeeID"> Delete </a>
+                        <div>
+                            <div>
+                                <a asp-controller="Employee" asp-action="Edit"
+                                   asp-route-employeeID="@employee.EmployeeID"> Edit </a>
+                            </div>
+                            <div>
+                                <a asp-controller="Employee" asp-action="Delete"
+                                   asp-route-employeeID="@employee.EmployeeID"> Delete </a>
+                            </div>
+
+
+                        </div>
                     </td>
                 </tr>
             }
         </tbody>
+
 
     </table>
 </form>

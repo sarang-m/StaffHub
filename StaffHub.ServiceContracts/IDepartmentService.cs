@@ -4,9 +4,9 @@ namespace StaffHub.ServiceContracts
 {
     public interface IDepartmentService
     {
-        DepartmentResponse AddDepartment(DepartmentAddRequest? departmentAddRequest);
-        List<DepartmentResponse> GetAllDepartment();
-        DepartmentResponse GetDepartmentByID(Guid? departmentId);
+        Task<DepartmentResponse> AddDepartment(DepartmentAddRequest? departmentAddRequest);
+        Task<List<DepartmentResponse>> GetAllDepartment();
+        Task<DepartmentResponse> GetDepartmentByID(Guid? departmentId);
     }
 
 

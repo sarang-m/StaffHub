@@ -22,7 +22,7 @@ namespace StaffHub.Controllers
         }
         [Route("index")]
         [Route("/")] 
-        public IActionResult Index(string searchBy, string? searchString, 
+        public async Task<IActionResult> Index(string searchBy, string? searchString, 
             string sortBy=nameof(EmployeeResponse.EmployeeName), 
             SortOrderOptions sortOrder = SortOrderOptions.ASC)
         {
@@ -42,21 +42,21 @@ namespace StaffHub.Controllers
             };
 
 
-            List<EmployeeResponse> employees = _employyeService.GetFilteredEmployees(searchBy, searchString);
+            List<EmployeeResponse> employees = await _employyeService.GetFilteredEmployees(searchBy, searchString);
             //Sort functionality
             ViewBag.currentSortBy = sortBy; 
             ViewBag.currentSortOrder = sortOrder.ToString();
 
-            List<EmployeeResponse> sortedEmployees = _employyeService.GetSortedEmployees(
+            List<EmployeeResponse> sortedEmployees =await _employyeService.GetSortedEmployees(
                 employees, sortBy, sortOrder);
 
             return View(sortedEmployees);
         }
         [Route("create")]
         [HttpGet]
-        public IActionResult CreateEmployee()
+        public async Task<IActionResult> CreateEmployee()
         {
-            List<DepartmentResponse> allDepartment =  _departmentService.GetAllDepartment();
+            List<DepartmentResponse> allDepartment = await _departmentService.GetAllDepartment();
             ViewBag.Department = allDepartment.Select( 
                 temp => new SelectListItem() { 
                     Text = temp.DepartmentName, 
@@ -67,11 +67,11 @@ namespace StaffHub.Controllers
 
         [Route("create")]
         [HttpPost]
-        public IActionResult CreateEmployee(EmployeeAddRequest employeeAddRequest)
+        public async Task<IActionResult> CreateEmployee(EmployeeAddRequest employeeAddRequest)
         {
             if (!ModelState.IsValid)
             {
-                List<DepartmentResponse> allDepartment = _departmentService.GetAllDepartment();
+                List<DepartmentResponse> allDepartment = await _departmentService.GetAllDepartment();
                 ViewBag.Department = allDepartment.Select(
                 temp => new SelectListItem()
                 {
@@ -82,20 +82,20 @@ namespace StaffHub.Controllers
                     e => e.ErrorMessage).ToList();
                 return View();
             }
-            EmployeeResponse employeeResponse = _employyeService.AddEmployee(employeeAddRequest);
+            EmployeeResponse employeeResponse = await _employyeService.AddEmployee(employeeAddRequest);
             return RedirectToAction("index","Employee");
         }
         [HttpGet]
         [Route("edit/{employeeID}")]
-        public IActionResult Edit(Guid employeeID)
+        public async Task<IActionResult> Edit(Guid employeeID)
         {
-            EmployeeResponse? employeeResponse = _employyeService.GetEmployeeByID(employeeID);
+            EmployeeResponse? employeeResponse =await _employyeService.GetEmployeeByID(employeeID);
             if (employeeResponse == null)
             {
                 return RedirectToAction("index");
             }
 
-            List<DepartmentResponse> allDepartment = _departmentService.GetAllDepartment();
+            List<DepartmentResponse> allDepartment =await _departmentService.GetAllDepartment();
             ViewBag.Department = allDepartment.Select(
                 temp => new SelectListItem()
                 {
@@ -109,9 +109,9 @@ namespace StaffHub.Controllers
         }
         [HttpPost]
         [Route("edit/{employeeID}")]
-        public IActionResult Edit(EmployeeUpdateRequest employeeUpdateRequest)
+        public async Task<IActionResult> Edit(EmployeeUpdateRequest employeeUpdateRequest)
         {
-            EmployeeResponse employeeResponse =  _employyeService.GetEmployeeByID(employeeUpdateRequest.EmployeeID);
+            EmployeeResponse employeeResponse = await _employyeService.GetEmployeeByID(employeeUpdateRequest.EmployeeID);
 
             if (employeeResponse == null)
             {
@@ -119,12 +119,12 @@ namespace StaffHub.Controllers
             }
             if (ModelState.IsValid)
             {
-                EmployeeResponse updatedEmployee =_employyeService.UpdateEmployees(employeeUpdateRequest);
+                EmployeeResponse updatedEmployee = await _employyeService.UpdateEmployees(employeeUpdateRequest);
                 return RedirectToAction("index");
             }
             else
             {
-                List<DepartmentResponse> allDepartment = _departmentService.GetAllDepartment();
+                List<DepartmentResponse> allDepartment = await _departmentService.GetAllDepartment();
                 ViewBag.Department = allDepartment.Select(
                 temp => new SelectListItem()
                 {
@@ -139,9 +139,9 @@ namespace StaffHub.Controllers
         }
         [HttpGet]
         [Route("delete/{employeeID}")]
-        public IActionResult Delete(Guid employeeId)
+        public async Task<IActionResult> Delete(Guid employeeId)
         {
-            EmployeeResponse? employeeResponse = _employyeService.GetEmployeeByID(employeeId);
+            EmployeeResponse? employeeResponse = await _employyeService.GetEmployeeByID(employeeId);
             if (employeeResponse != null)
             {
                 return View(employeeResponse);
@@ -150,12 +150,12 @@ namespace StaffHub.Controllers
         }
         [HttpPost]
         [Route("delete/{employeeID}")]
-        public IActionResult Delete(EmployeeResponse employeeResponse)
+        public async Task<IActionResult> Delete(EmployeeResponse employeeResponse)
         {
-            EmployeeResponse? employee = _employyeService.GetEmployeeByID(employeeResponse.EmployeeID);
+            EmployeeResponse? employee = await _employyeService.GetEmployeeByID(employeeResponse.EmployeeID);
             if (employee != null)
             {
-                bool isDeleated = _employyeService.DeleteEmployee(employee.EmployeeID);
+                bool isDeleated = await _employyeService.DeleteEmployee(employee.EmployeeID);
                 return RedirectToAction("index");
             }
             return RedirectToAction("index");

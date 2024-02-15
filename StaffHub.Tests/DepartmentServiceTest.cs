@@ -13,38 +13,38 @@ namespace StaffHub.Tests
     public class DepartmentServiceTest
     {
         private readonly IDepartmentService _departmentService;
-        public DepartmentServiceTest()
+        public DepartmentServiceTest(IDepartmentService departmentService)
         {
-            _departmentService = new DepartmentService();
+            _departmentService = departmentService;
 
         }
         #region AddDepartment
         //When the Department request is null -> Throw ArgumentNullException
         [Fact]
-        public void AddDepartment_NullDepartment()
+        public async Task AddDepartment_NullDepartment()
         {
             //Arrang
             DepartmentAddRequest? request = null;
             //Assert
-            Assert.Throws<ArgumentNullException>(() =>
+            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
             {
                 //Act
-                _departmentService.AddDepartment(request);
+                await _departmentService.AddDepartment(request);
             });
 
 
         }
         //When the Department name is null -> Throw ArgumentException
         [Fact]
-        public void AddDepartment_DeparmentNameNull()
+        public async Task AddDepartment_DeparmentNameNull()
         {
             //Arrang
             DepartmentAddRequest? request = new DepartmentAddRequest() { DepartmentName = null };
             //Assert
-            Assert.Throws<ArgumentException>(() =>
+            await Assert.ThrowsAsync<ArgumentException>( async () =>
             {
                 //Act
-                _departmentService.AddDepartment(request);
+                await _departmentService.AddDepartment(request);
             });
 
         }
@@ -69,12 +69,12 @@ namespace StaffHub.Tests
 
         //When supplied proper Department name insert it in to the Deparment list
         [Fact]
-        public void AddDepartment_ProperDepartment()
+        public async Task AddDepartment_ProperDepartment()
         {
             //Arrang
             DepartmentAddRequest? request = new DepartmentAddRequest() { DepartmentName = "Sales" };
             //Act
-            DepartmentResponse response = _departmentService.AddDepartment(request);
+            DepartmentResponse response = await _departmentService.AddDepartment(request);
             //Assert
             Assert.True(response.DeparmentId != Guid.Empty);
         }
@@ -84,7 +84,7 @@ namespace StaffHub.Tests
         //
 
         [Fact]
-        public void GetAllDepartment_Test()
+        public async Task GetAllDepartment_Test()
         {
             //Arrange
             List<DepartmentAddRequest> departmentRequestList = new List<DepartmentAddRequest> { 
@@ -96,11 +96,11 @@ namespace StaffHub.Tests
             //Act
             foreach (DepartmentAddRequest department in departmentRequestList)
             {
-                DepartmentResponse response = _departmentService.AddDepartment(department);
+                DepartmentResponse response = await _departmentService.AddDepartment(department);
                 departmentResponseList.Add(response);
 
             }
-            List<DepartmentResponse> actualResponseList = _departmentService.GetAllDepartment();
+            List<DepartmentResponse> actualResponseList = await _departmentService.GetAllDepartment();
 
             foreach (DepartmentResponse expected in departmentResponseList)
             {
@@ -113,13 +113,13 @@ namespace StaffHub.Tests
 
         [Fact]
         //If we supply null as CountryID, it should return null as CountryResponse
-        public void GetCountryByCountryID_NullCountryID()
+        public async Task GetCountryByCountryID_NullCountryID()
         {
             //Arrange
             Guid? departmentID = null;
 
             //Act
-            DepartmentResponse? department_response_from_get_method = _departmentService.GetDepartmentByID(departmentID);
+            DepartmentResponse? department_response_from_get_method = await _departmentService.GetDepartmentByID(departmentID);
 
 
             //Assert
@@ -129,14 +129,15 @@ namespace StaffHub.Tests
 
         [Fact]
         //If we supply a valid country id, it should return the matching country details as CountryResponse object
-        public void GetDepartmentByID_ValidDepartmenID()
+        public async Task GetDepartmentByID_ValidDepartmenID()
         {
             //Arrange
             DepartmentAddRequest? department_add_request = new DepartmentAddRequest() { DepartmentName = "Sales" };
-            DepartmentResponse department_response_from_add = _departmentService.AddDepartment(department_add_request);
+            DepartmentResponse department_response_from_add =await _departmentService.AddDepartment(department_add_request);
 
             //Act
-            DepartmentResponse? department_response_from_get = _departmentService.GetDepartmentByID(department_response_from_add.DeparmentId);
+            DepartmentResponse? department_response_from_get = 
+                await _departmentService.GetDepartmentByID(department_response_from_add.DeparmentId);
 
             //Assert
             Assert.Equal(department_response_from_add.DeparmentId, department_response_from_get.DeparmentId);

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace StaffHub.Entities
 {
@@ -7,6 +8,8 @@ namespace StaffHub.Entities
     {
         [Key]
         public Guid DepartmentId { get; set; }
+        [StringLength(50)]
         public string? DepartmenName { get; set; }
+        public virtual ICollection<Employee>? Employees { get; set; }
     }
 }

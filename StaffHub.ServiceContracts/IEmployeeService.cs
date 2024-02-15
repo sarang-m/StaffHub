@@ -10,14 +10,14 @@ namespace StaffHub.ServiceContracts
 {
     public interface IEmployeeService
     {
-        EmployeeResponse AddEmployee(EmployeeAddRequest? request);
-        List<EmployeeResponse> GetAllEmployees();
-        EmployeeResponse GetEmployeeByID(Guid? employeeID);
-        List<EmployeeResponse> GetFilteredEmployees(string searchBy, string? searchString);
-        List<EmployeeResponse> GetSortedEmployees(
+        Task<EmployeeResponse> AddEmployee(EmployeeAddRequest? request);
+        Task<List<EmployeeResponse>> GetAllEmployees();
+        Task<EmployeeResponse> GetEmployeeByID(Guid? employeeID);
+        Task<List<EmployeeResponse>> GetFilteredEmployees(string searchBy, string? searchString);
+        Task<List<EmployeeResponse>> GetSortedEmployees(
             List<EmployeeResponse> allEmployee, string sortBy, SortOrderOptions sortOrder);
-        EmployeeResponse UpdateEmployees(EmployeeUpdateRequest employeeUpdateRequest);
-        bool DeleteEmployee(Guid? employeeID);
+        Task<EmployeeResponse> UpdateEmployees(EmployeeUpdateRequest employeeUpdateRequest);
+        Task<bool> DeleteEmployee(Guid? employeeID);
 
     }
 

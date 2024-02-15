@@ -48,6 +48,7 @@ namespace StaffHub.ServiceContracts.DTO
                 DateOfBirth = employee.DateOfBirth, 
                 Gender = employee.Gender, 
                 DepartmentID = employee.DepartmentID, 
+                DepartmentName = employee.Department?.DepartmenName,
                 Role = employee.Role, 
                 IsActive = employee.IsActive, 
                 Age = (employee.DateOfBirth != null)? 

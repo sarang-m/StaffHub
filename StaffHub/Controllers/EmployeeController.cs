@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Rotativa.AspNetCore;
 using StaffHub.Entities;
 using StaffHub.ServiceContracts;
 using StaffHub.ServiceContracts.DTO;
@@ -159,6 +160,22 @@ namespace StaffHub.Controllers
                 return RedirectToAction("index");
             }
             return RedirectToAction("index");
+        }
+        [Route("employeePDF")]
+        public async Task<IActionResult> EmployeePDF()
+        {
+            List<EmployeeResponse> employees = await _employyeService.GetAllEmployees();
+            return new ViewAsPdf("EmployeePDF", employees, ViewData)
+            {
+                PageMargins = new Rotativa.AspNetCore.Options.Margins()
+                {
+                    Top = 20,
+                    Right = 20,
+                    Bottom = 20,
+                    Left = 20
+                },
+                PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait
+            };
         }
 
     }

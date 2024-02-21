@@ -1,0 +1,42 @@
+﻿@model IEnumerable<EmployeeResponse>
+@{
+    Layout = null;
+}
+
+
+<link href="@("http://" + Context.Request.Host.ToString() + "/StyleSheet.css")" rel="stylesheet" />
+<h1>Employees</h1>
+    <table class="table w-100 mt">
+        <thead>
+            <tr>
+                <th>Employee Name</th>
+                <th>Email</th>
+                <th>Date Of Birth</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Role</th>
+                <th>Department</th>
+                <th>Is Active</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (EmployeeResponse employee in Model)
+            {
+                <tr>
+                    <td style="width:15%">@employee.EmployeeName</td>
+                    <td style="width:18%">@employee.Email</td>
+                    <td style="width:12%">@employee.DateOfBirth?.ToString("dd MMM yyyy")</td>
+                    <td style="width:8%">@employee.Age</td>
+                    <td style="width:10%">@employee.Gender</td>
+                    <td style="width:10%">@employee.Role</td>
+                    <td style="width:10%">@employee.DepartmentName</td>
+                    <td style="width:8%">@employee.IsActive</td>
+                    
+                </tr>
+            }
+        </tbody>
+
+
+    </table>
+    

@@ -5,7 +5,8 @@
 
 <form asp-controller="Employee" asp-action="Index" method="get">
     <h1>Employees </h1>
-    <a href="~/employee/create"> Add Employee </a>
+    <a href="~/employee/create" style="margin-right:15px"> Add Employee </a>
+    <a href="~/employee/employeePDF"> Download as PDF </a>
     <div class="box flex">
         <div class="flex-1">
             <select class="form-input" name="searchBy">
@@ -32,7 +33,7 @@
 
     </div>
     <table class="table w-100 mt">
-        <thead>
+        <thead style="height:30px">
             <tr>
                 @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData){
                 { "columnName", nameof(EmployeeResponse.EmployeeName) },

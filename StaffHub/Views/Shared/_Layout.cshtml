@@ -9,16 +9,40 @@
 </head>
 <body>
     <div class="container">
-        <div class="navbar">
-            <div class="navbar-brand">Staff Hub</div>
+        <div class="page-content">
+            <div class="margin-bottom" id="top-bar-div">
+                <div class="flex">
+                    <div class="flex-1" id="app-title-div">
+                        <h1 class="app-title">
+                            <i class="fa-solid fa-people-simple"></i>
+                            Staff Hub
+                        </h1>
+                    </div>
+                    <div class="flex-1 pr" id="search-box-div">
+                        <div class="navbar account-links">
+                            <ul>
+                                <li>
+                                    <a href="~/Account/Register"> Register </a>
+                                    <a href="~/Account/Login"> Login </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* if not needed remove *@
+            <div class="navbar mb">
             <ul>
                 <li>
-                    <a href="~/employee/index"> Employees </a>
+                    <a href="~/employee/index"> Employee </a>
                 </li>
             </ul>
-        </div>
-        <div class="page-content">
-            @RenderBody()
+            </div>
+
+            <div class="page-content">
+                @RenderBody()
+            </div>
         </div>
     </div>
 </body>

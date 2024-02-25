@@ -2,10 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.Metrics;
 using System;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using StaffHub.Entities.IdentityEntities;
 
 namespace StaffHub.Entities
 {
-    public class EmployeesDbContext : DbContext
+    public class EmployeesDbContext : IdentityDbContext<ApplicationUser,ApplicationRole,Guid>
     {
         public EmployeesDbContext(DbContextOptions options) : base(options)
         {

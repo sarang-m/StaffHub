@@ -4,36 +4,58 @@
 }
 
 <form asp-controller="Employee" asp-action="Index" method="get">
-    <h1>Employees </h1>
-    <a href="~/employee/create" style="margin-right:15px"> Add Employee </a>
-    <a href="~/employee/employeePDF"> Download as PDF </a>
-    <div class="box flex">
+
+    <div class="flex">
         <div class="flex-1">
-            <select class="form-input" name="searchBy">
-                @foreach (var field in ViewBag.SearchFields)
-                {
-                    if (field.Key == @ViewBag.currentSearchBy)
-                    {
-                        <option value="@field.Key" selected="selected">@field.Value</option>
-                    }
-                    else
-                    {
-                        <option value="@field.Key">@field.Value</option>
-                    }
-                }
-            </select>
-        </div>
-        <div class="flex-1">
-            <input type="search" id="Search" class="form-input" placeholder="Search" name="searchString" value="@ViewBag.currentSearchString" />
-        </div>
-        <div class="flex-1">
-            <button class="button blue-back"> Search</button>
-            <a asp-controller="Employee" asp-action="Index"> Clear All </a>
+            <div class="text-grey">
+                <span>StaffHub</span>
+                <i class="fa-solid fa-caret-right"></i>
+                <span>Employees</span>
+            </div>
         </div>
 
+        <div class="flex-1 text-right">
+            <a href="~/employee/create" style="margin-right:15px" class="button-link button-blue-back">
+                Add Employee </a>
+            <a href="~/employee/employeePDF" class="button-link button-blue-back ml"> Download as PDF </a>
+        </div>
     </div>
-    <table class="table w-100 mt">
-        <thead style="height:30px">
+
+    <div class="table-container">
+        <div class="flex">
+            <div class="flex-1">
+                <h1>Employees </h1>
+            </div>
+            <div class="flex-3 text-right">
+                <label>Search by:</label>
+                <select class="search-dropdown" name="searchBy" style="width:200px">
+                    @foreach (var field in ViewBag.SearchFields)
+                    {
+                        if (field.Key == @ViewBag.currentSearchBy)
+                        {
+                            <option value="@field.Key" selected="selected">@field.Value</option>
+                        }
+                        else
+                        {
+                            <option value="@field.Key">@field.Value</option>
+                        }
+                    }
+                </select>
+
+                <input type="search" id="Search" class="search-text" placeholder="Search" name="searchString" value="@ViewBag.currentSearchString" style="width:200px"/>
+
+                <button class="search-button"> Search</button>
+                <a asp-controller="Employee" asp-action="Index" class="ml link-hover"> Clear All </a>
+
+            </div>
+
+        </div>
+
+    
+    
+    
+    <table class="table w-100 persons">
+        <thead style="height:60px">
             <tr>
                 @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData){
                 { "columnName", nameof(EmployeeResponse.EmployeeName) },
@@ -82,24 +104,20 @@
             @foreach (EmployeeResponse employee in Model)
             {
                 <tr>
-                    <td style="width:15%">@employee.EmployeeName</td>
-                    <td style="width:18%">@employee.Email</td>
-                    <td style="width:12%">@employee.DateOfBirth?.ToString("dd MMM yyyy")</td>
-                    <td style="width:8%">@employee.Age</td>
-                    <td style="width:10%">@employee.Gender</td>
+                    <td style="width:10%">@employee.EmployeeName</td>
+                    <td style="width:20%">@employee.Email</td>
+                    <td style="width:10%">@employee.DateOfBirth?.ToString("dd MMM yyyy")</td>
+                    <td style="width:6%">@employee.Age</td>
+                    <td style="width:8%">@employee.Gender</td>
                     <td style="width:10%">@employee.Role</td>
                     <td style="width:10%">@employee.DepartmentName</td>
                     <td style="width:8%">@employee.IsActive</td>
-                    <td style="width:8%">
+                    <td style="width:20%">
                         <div>
-                            <div>
                                 <a asp-controller="Employee" asp-action="Edit"
-                                   asp-route-employeeID="@employee.EmployeeID"> Edit </a>
-                            </div>
-                            <div>
+                                   asp-route-employeeID="@employee.EmployeeID" class="button-link button-blue-back"> Edit </a>
                                 <a asp-controller="Employee" asp-action="Delete"
-                                   asp-route-employeeID="@employee.EmployeeID"> Delete </a>
-                            </div>
+                                   asp-route-employeeID="@employee.EmployeeID" class="button-link button-red-back"> Delete </a>
 
 
                         </div>
@@ -108,6 +126,6 @@
             }
         </tbody>
 
-
     </table>
+    </div>
 </form>

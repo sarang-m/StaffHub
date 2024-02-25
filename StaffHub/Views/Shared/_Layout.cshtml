@@ -21,10 +21,27 @@
                     <div class="flex-1 pr" id="search-box-div">
                         <div class="navbar account-links">
                             <ul>
-                                <li>
-                                    <a href="~/Account/Register"> Register </a>
-                                    <a href="~/Account/Login"> Login </a>
-                                </li>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                    <li>
+                                        <i class="fa-solid fa-user"></i>
+                                        @User.Identity?.Name
+                                    </li>
+                                    <li>
+                                        <a href="~/account/logout"> Logout </a>
+
+                                    </li>
+                            }
+                            else
+                            {
+                                    <li>
+                                        <a href="~/account/register"> Register </a>
+
+                                    </li>
+                                    <li>
+                                        <a href="~/account/login"> Login </a>
+                                    </li>
+                            }
                             </ul>
                         </div>
                     </div>

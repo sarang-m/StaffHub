@@ -1,33 +1,20 @@
-﻿@model RegisterDTO
+﻿@model LoginDTO
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Login";
 }
 
 <div class="text-gray">
     <span>StaffHub</span>
     <i class="fa-solid fa-caret-right"></i>
-    <span>Register</span>
+    <span>Login</span>
 </div>
 
 <div class="form-container">
-    Already Registered? <a href="~/account/login" class="link-hover">Login</a>
-    <h2 class="text-large">Register</h2>
+    Not yet Registered? <a href="~/account/register" class="link-hover">Register</a>
+    <h2 class="text-large">Login</h2>
 
-    <form asp-controller="Account" asp-action="Register" method="post">
-        @*Employee Name*@
-        <div class="form-field flex">
-            <div class="w-25">
-                <label for="EmployeeName" class="form-label pt"> Empolyee Name </label>
-            </div>
-            <div class="flex-1">
-                <div>
-                    <input asp-for="EmployeeName" class="form-input" />
-                </div>
-                <div>
-                    <span asp-validation-for="EmployeeName" class="text-red"></span>
-                </div>
-            </div>
-        </div>
+    <form asp-controller="Account" asp-action="Login" method="post" >
+        
 
         @*Email*@
         <div class="form-field flex">
@@ -61,28 +48,13 @@
             </div>
         </div>
 
-        @*Confirm Password*@
-        <div class="form-field flex">
-            <div class="w-25">
-                <label for="ConfirmPassword" class="form-label pt"> Confirm Password </label>
-            </div>
-            <div class="flex-1">
-                <div>
-                    <input asp-for="ConfirmPassword" class="form-input" />
-                </div>
-                <div>
-                    <span asp-validation-for="ConfirmPassword" class="text-red"></span>
-                </div>
 
-            </div>
-        </div>
-
-        @*Register Button*@
+        @*Login Button*@
         <div class="form-field flex">
             <div class="w-25">
             </div>
             <div class="flex-1">
-                <button class="button button-green-back" type="submit"> Register </button>
+                <button class="button button-green-back" type="submit"> Login </button>
                 @if (ViewBag.Errors != null)
                 {
                     <div class="text-red ml">

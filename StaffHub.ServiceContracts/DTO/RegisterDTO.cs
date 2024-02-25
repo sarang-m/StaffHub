@@ -17,8 +17,9 @@ namespace StaffHub.ServiceContracts.DTO
         [Required(ErrorMessage = "Password can't be blank")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        [Required(ErrorMessage = "Name can't be blank")]
+        [Required(ErrorMessage = "Confirm password can't be blank")]
         [DataType(DataType.Password)]
+        [Compare("Password",ErrorMessage ="Password and confirm password do not match")]
         public string ConfirmPassword { get; set; }
     }
 }

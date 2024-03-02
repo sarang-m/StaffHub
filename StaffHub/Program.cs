@@ -27,9 +27,17 @@ builder.Services.AddIdentity<ApplicationUser,ApplicationRole>(options =>
     .AddDefaultTokenProviders()
     .AddUserStore<UserStore<ApplicationUser,ApplicationRole,EmployeesDbContext, Guid>>()
     .AddRoleStore<RoleStore<ApplicationRole,EmployeesDbContext, Guid>>();
+
 builder.Services.AddAuthorization(Options =>
-{ Options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build(); });
-builder.Services.ConfigureApplicationCookie(Options => Options.LoginPath = "/account/login");
+{ Options.FallbackPolicy = new AuthorizationPolicyBuilder().
+    RequireAuthenticatedUser().Build(); Options.AddPolicy("NotAuthenticated", policy =>
+    {
+        policy.RequireAssertion(context => { return !context.User.Identity.IsAuthenticated; });
+    });
+    });
+
+builder.Services.ConfigureApplicationCookie(
+    Options => Options.LoginPath = "/account/login");
 
 var app = builder.Build();
 
@@ -37,7 +45,10 @@ if (builder.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
+app.UseHsts();
+app.UseHttpsRedirection();
 Rotativa.AspNetCore.RotativaConfiguration.Setup("wwwroot", wkhtmltopdfRelativePath: "Rotativa");
+
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();

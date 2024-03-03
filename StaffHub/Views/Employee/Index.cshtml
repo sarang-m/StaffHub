@@ -15,9 +15,18 @@
         </div>
 
         <div class="flex-1 text-right">
-            <a href="~/employee/create" style="margin-right:15px" class="button-link button-blue-back">
-                Add Employee </a>
+            @if (User.IsInRole("Admin"))
+            {
+                <a href="~/employee/create" style="margin-right:15px" class="button-link button-blue-back">
+                    Add Employee
+                </a>
+            }
+            
             <a href="~/employee/employeePDF" class="button-link button-blue-back ml"> Download as PDF </a>
+            @if (User.IsInRole("Admin"))
+            {
+                <a href="~/account/register" class="button-link button-blue-back ml"> Add New User </a>
+            }
         </div>
     </div>
 
@@ -97,7 +106,11 @@
                 {"displayName", "Is Active" },
 
                 })
-                <th>Options</th>
+                @if (User.IsInRole("Admin"))
+                {
+                    <th>Options</th>
+                }
+                    
             </tr>
         </thead>
         <tbody>
@@ -112,16 +125,20 @@
                     <td style="width:10%">@employee.Role</td>
                     <td style="width:10%">@employee.DepartmentName</td>
                     <td style="width:8%">@employee.IsActive</td>
-                    <td style="width:20%">
-                        <div>
-                                <a asp-controller="Employee" asp-action="Edit"
-                                   asp-route-employeeID="@employee.EmployeeID" class="button-link button-blue-back"> Edit </a>
-                                <a asp-controller="Employee" asp-action="Delete"
-                                   asp-route-employeeID="@employee.EmployeeID" class="button-link button-red-back"> Delete </a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                            <td style="width:20%">
+                                <div>
+                                    <a asp-controller="Employee" asp-action="Edit"
+                                       asp-route-employeeID="@employee.EmployeeID" class="button-link button-blue-back"> Edit </a>
+                                    <a asp-controller="Employee" asp-action="Delete"
+                                       asp-route-employeeID="@employee.EmployeeID" class="button-link button-red-back"> Delete </a>
 
 
-                        </div>
-                    </td>
+                                </div>
+                            </td>
+                    }
+                        
                 </tr>
             }
         </tbody>

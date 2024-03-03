@@ -57,19 +57,11 @@
                 </div>
             </div>
 
-            @* if not needed remove *@
-            <div class="navbar mb">
-            <ul>
-                <li>
-                    <a href="~/employee/index"> Employee </a>
-                </li>
-            </ul>
-            </div>
-
             <div class="page-content">
                 @RenderBody()
             </div>
         </div>
     </div>
+    @RenderSection("scripts", required: false)
 </body>
 </html>

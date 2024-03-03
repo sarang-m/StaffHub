@@ -22,7 +22,7 @@ namespace StaffHub.Controllers
         }
         [HttpGet]
         [Route("register")]
-        [Authorize("NotAuthenticated")]
+        [AllowAnonymous]
         public IActionResult Register()
         {
             return View();
@@ -30,7 +30,7 @@ namespace StaffHub.Controllers
 
         [HttpPost]
         [Route("register")]
-        [Authorize("NotAuthenticated")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterDTO registerDTO)
         {
             //check validation errors
@@ -120,16 +120,14 @@ namespace StaffHub.Controllers
                 ApplicationUser user = await _userManager.FindByEmailAsync(loginDTO.Email);
                 if (user != null)
                 {
-                    if (await _userManager.IsInRoleAsync(user, UserTypeOptions.Admin.ToString()))
-                    {
-                        return RedirectToAction("Index", "Home", new {area = "admin"});
-                    }
+                    return RedirectToAction(nameof(EmployeeController.Index), "Employee");
+                    //if (await _userManager.IsInRoleAsync(user, UserTypeOptions.Admin.ToString()))
+                    //{
+                    //    return RedirectToAction("Index", "Home", new {area = "admin"});
+                    //}
                 }
-                else
-                {
-
-                }
-                return RedirectToAction(nameof(EmployeeController.Index), "Employee");
+                
+                
             }
             ModelState.AddModelError("Login", "Invalid email or password");
             return View();

@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace StaffHub.Areas.Admin.Controllers
 {
-    [Area("admin")]
-    [Authorize(Roles = "admin")]
+    [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class HomeController : Controller
     {
         [Route("admin/home/index")]

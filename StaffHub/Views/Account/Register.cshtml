@@ -15,9 +15,17 @@
         <div>Already Registered?
             <a href="~/account/login" class="link-hover">Login</a>
         </div>
-        
+
+
     }
-    
+    else
+    {
+        <div>
+            <a href="~/employee/index" class="link-hover">Back to Employees</a>
+        </div>
+    }
+
+
      
     <h2 class="text-large">Register</h2>
 
@@ -87,7 +95,7 @@
 
 
         @*User Type*@
-        @if (!User.Identity.IsAuthenticated)
+        @if (User.Identity.IsAuthenticated)
         {
             @if (User.IsInRole("Admin"))
             {
@@ -107,24 +115,25 @@
                     </div>
                 </div>
             }
-            else
-            {
-                <div class="form-field flex" style="display:none">
-                    <div class="w-25">
-                        <label for="UserType" class="form-label pt"> User Type </label>
-                    </div>
-                    <div class="flex-1">
-                        <div>
-                            <input type="radio" id="User" asp-for="UserType" value="User" checked="true" />
-                            <label for="User">User</label>
 
-                            <input type="radio" id="Admin" asp-for="UserType" value="Admin" />
-                            <label for="Admin">Admin</label>
-                        </div>
-
-                    </div>
+        }
+        else
+        {
+            <div class="form-field flex" style="display:none">
+                <div class="w-25">
+                    <label for="UserType" class="form-label pt"> User Type </label>
                 </div>
-            }
+                <div class="flex-1">
+                    <div>
+                        <input type="radio" id="User" asp-for="UserType" value="User" checked="true" />
+                        <label for="User">User</label>
+
+                        <input type="radio" id="Admin" asp-for="UserType" value="Admin" />
+                        <label for="Admin">Admin</label>
+                    </div>
+
+                </div>
+            </div>
         }
 
         
@@ -135,7 +144,7 @@
             </div>
             <div class="flex-1">
                 <button class="button button-green-back" type="submit"> Register </button>
-                <div asp-validation-summary="All"></div>
+                <div asp-validation-summary="All" class="text-red"></div>
                 @if (ViewBag.Errors != null)
                 {
                     <div class="text-red ml">

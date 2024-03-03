@@ -60,6 +60,7 @@
 
             <div class="flex-1">
                 <button class="button button-green-back"> Delete </button>
+                <div asp-validation-summary="All" class="text-red"></div>
                 @if(ViewBag.Errors != null)
                 {
                     <div class="text-red ml">

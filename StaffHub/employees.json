@@ -1,14 +1,5 @@
 [
-  {
-    "EmployeeID": "9B32B1BA-3586-40D0-8E76-8500E0A84689",
-    "EmployeeName": "Marguerite",
-    "Email": "mwebsdale0@people.com.cn",
-    "DateOfBirth": "1989-08-28",
-    "Gender": "Female",
-    "DepartmentID": "EC51293B-52DE-43B5-8765-49A5D7325DC7",
-    "Role": "Recruitment Specialist",
-    "IsActive": false
-  },
+
   {
     "EmployeeID": "85324C3E-7041-4AB1-B7C0-AA43FFFEC6D6",
     "EmployeeName": "Ursa",

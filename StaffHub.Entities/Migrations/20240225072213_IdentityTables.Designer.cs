@@ -211,7 +211,7 @@ namespace StaffHub.Entities.Migrations
                         {
                             EmployeeID = new Guid("9b32b1ba-3586-40d0-8e76-8500e0a84689"),
                             DateOfBirth = new DateTime(1989, 8, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartmentID = new Guid("ec51293b-52de-43b5-8765-49a5d7325dc7"),
+                            DepartmentID = new Guid("14629847-905a-4a0e-9abe-80b61655c5cb"),
                             Email = "mwebsdale0@people.com.cn",
                             EmployeeName = "Marguerite",
                             Gender = "Female",
